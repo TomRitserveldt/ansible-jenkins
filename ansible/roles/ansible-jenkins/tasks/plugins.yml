@@ -1,0 +1,29 @@
+---
+- name: List plugins
+  sudo: yes
+  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 list-plugins | cut -f 1 -d ' '
+  register: plugins_installed
+  tags: jenkins
+  
+- name: Install/update plugins
+  sudo: yes
+  command: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 install-plugin {{ item }}
+  when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
+  with_items: plugins
+  notify:
+    - 'Safe restart Jenkins'
+  tags: jenkins
+
+- name: List plugins to be updated
+  sudo: yes
+  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
+  register: plugins_updates
+  tags: jenkins
+
+- name: Update plugins
+  sudo: yes
+  command: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 install-plugin {{ plugins_updates.stdout }}
+  when: plugins_updates.stdout != ''
+  notify:
+    - 'Safe restart Jenkins'
+  tags: jenkins

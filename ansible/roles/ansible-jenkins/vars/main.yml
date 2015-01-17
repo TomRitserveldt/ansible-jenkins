@@ -1,0 +1,10 @@
+---
+jenkins_dest: /opt/jenkins  # Jenkins CLI destination folder
+jenkins_delay_s: 25  # Delay to wait on the service to start, change as needed.
+# (if the delay is too low you'll get a HTTP ERROR 503: Service unavailable.)
+
+plugins: # List of the plugins you want to install for jenkins.
+  - github
+jenkins:
+  cli_dest: '{{ jenkins_dest }}/jenkins-cli.jar' # Jenkins CLI destination
+  updates_dest: '{{ jenkins_dest }}/updates_jenkins.json' # Jenkins updates file

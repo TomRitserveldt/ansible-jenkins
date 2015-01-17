@@ -1,0 +1,8 @@
+# site.yml
+---
+- hosts: ci-centos
+  sudo: true
+  roles:
+    - common
+    - ansible-jenkins
+    - web

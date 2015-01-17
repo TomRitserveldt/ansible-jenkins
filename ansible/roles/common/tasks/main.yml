@@ -1,0 +1,21 @@
+# roles/common/main.yml
+---
+- name: Install common packages
+  yum: pkg={{item}} state=installed
+  with_items:
+    - bash-completion
+    - libselinux-python
+    - java-1.6.0-openjdk
+    
+- name: Enable firewall
+  service: name=firewalld state=running enabled=true
+
+- name: Put hosts name in the hosts file
+  lineinfile:
+    dest=/etc/hosts
+    state=present
+    line="{{ ansible_default_ipv4.address }} {{ ansible_hostname }} {{ ansible_fqdn }}"regexp="{{ ansible_default_ipv4.address }}"
+
+#- name: Install wget package (RedHat based)
+#  yum: pkg=wget state=installed
+#  only_if: "'$ansible_pkg_mgr' == 'yum'"

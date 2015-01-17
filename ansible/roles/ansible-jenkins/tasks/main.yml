@@ -1,0 +1,42 @@
+# roles/ansible-jenkins/main.yml
+---
+- name: Install jenkins dependencies
+  yum: pkg={{item}} state=installed
+  with_items:
+    - git
+  tags: jenkins
+
+- name: Download jenkins
+  get_url: url=http://pkg.jenkins-ci.org/redhat/jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
+  tags: jenkins
+
+- name: getting key
+  rpm_key: state=present key=http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+  tags: jenkins
+
+- name: install jenkins
+  yum: name=jenkins state=present
+  tags: jenkins
+
+- name: Start jenkins service
+  service: name=jenkins state=running enabled=yes
+  tags: jenkins
+
+- name: firewall rule for port 8080(allow jenkins traffic)
+  firewalld: port=8080/tcp permanent={{ item }} state=enabled
+  with_items: 
+    - true
+    - false
+  tags: jenkins
+
+# Install Jenkins cli
+- include: cli.yml
+  tags: jenkins
+
+# Install/update plugins
+- include: plugins.yml
+  tags: jenkins
+
+# create jenkins jobs
+- include: jenkins_jobs.yml
+  tags: jenkins

@@ -1,0 +1,23 @@
+﻿# host_vars/Ci-centos
+---
+# A list of jenkins jobs that need to be created, 
+# and their values to be added to the template file for the job.xml creation.
+
+jenkins_jobs:
+  - name: "Job_test1"     # The job name
+    xml_name: "Job_test1.xml"     # The name of the xml file to be generated on the server(used to create the job)
+    project_description: "This is a jenkins job."     # The to be generated jenkins job description 
+    git_repository: "https://github.com/TomRitserveldt/cheat_sheets.git"    # The git repository for the job
+    git_branchspec: "*/master" # The following variables are default values, change according to your needs.
+    can_roam: "true"      
+    disabled: "false"
+    concurrent_build: "false"
+    
+  - name: "Job_test2"
+    xml_name: "Job_test2.xml"
+    project_description: "This is another jenkins job."
+    git_repository: "https://github.com/TomRitserveldt/cheat_sheets.git"
+    git_branchspec: "*/master"
+    can_roam: "true"
+    disabled: "false"
+    concurrent_build: "false"

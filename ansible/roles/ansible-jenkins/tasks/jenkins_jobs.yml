@@ -1,0 +1,15 @@
+# roles/ansible-jenkins/main.yml
+---
+
+- name: generate jenkins job xml files
+  template: 
+    src=jenkins_job.j2
+    dest={{ jenkins_dest }}/{{ item.xml_name }}
+  with_items: jenkins_jobs
+  tags: jenkins
+  
+- name: create jenkins jobs with xml files
+  sudo: yes
+  shell: "java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 create-job {{ item.name }} < {{ jenkins_dest }}/{{ item.xml_name }}"
+  with_items: jenkins_jobs
+  tags: jenkins
