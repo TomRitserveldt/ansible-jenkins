@@ -64,3 +64,6 @@ jenkins:
 3. plugins for jenkins are installed or updated, for now only github is installed(you can add plugins you need in the jenkins role var file as shown above)
 4. jenkins jobs are created
 5. you're done! now you can access the jenkins dashboard interface on "your-ip-address:8080" .
+
+### License
+BSD
