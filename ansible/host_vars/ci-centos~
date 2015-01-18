@@ -1,6 +1,6 @@
 ﻿# host_vars/Ci-centos
 ---
-# A list of jenkins jobs that need to be created, 
+# A list of jenkins jobs that you need to have created, 
 # and their values to be added to the template file for the job.xml creation.
 
 jenkins_jobs:
