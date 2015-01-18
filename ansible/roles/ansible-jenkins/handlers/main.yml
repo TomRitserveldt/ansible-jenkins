@@ -1,4 +1,4 @@
 # This is the handler to safely restart jenkins, using the jenkins command line jar file.
 - name: Safe restart Jenkins
   sudo: yes
-  command: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 safe-restartis
+  command: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 safe-restart
